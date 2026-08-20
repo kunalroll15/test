@@ -219,6 +219,59 @@
       min-width: 220px;
     }
 
+
+    /* Quiz Timers */
+    .timer-bar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .timer-card {
+      flex: 1;
+      min-width: 190px;
+      background: var(--bg-page);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .timer-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      min-width: 70px;
+      text-align: right;
+    }
+
+    .timer-value.warning {
+      color: var(--warning);
+    }
+
+    .timer-value.danger {
+      color: var(--danger);
+      animation: timerPulse 1s infinite;
+    }
+
+    @keyframes timerPulse {
+      50% { opacity: 0.55; }
+    }
+
     /* Main Quiz Card */
     .quiz-card {
       background: var(--surface);
@@ -613,6 +666,18 @@
         </div>
       </div>
 
+
+      <div class="timer-bar">
+        <div class="timer-card">
+          <span class="timer-label">⏱ Question Timer</span>
+          <span class="timer-value" id="questionTimer">01:00</span>
+        </div>
+        <div class="timer-card">
+          <span class="timer-label">⏳ Overall Timer</span>
+          <span class="timer-value" id="overallTimer">60:00</span>
+        </div>
+      </div>
+
       <div class="quiz-card">
         <div class="card-meta">
           <span class="section-tag" id="qSectionTag">Section 1: Quantitative Aptitude</span>
@@ -710,10 +775,10 @@
       { id: 10, section: "SECTION 1: QUANTITATIVE APTITUDE", q: "If 2^x = 32, then x = ?", options: ["3", "4", "5", "6"], answer: 2, solution: "32 = 2^5, hence x = 5." },
 
       // SECTION 2: LOGICAL REASONING
-      { id: 11, section: "SECTION 2: LOGICAL REASONING", q: "If all roses are flowers and some flowers are red, which statement is definitely true?", options: ["All roses are red", "Some roses are red", "Some flowers are roses", "All red things are flowers"], answer: 2, solution: "From 'All roses are flowers', it logically converts to 'Some flowers are roses'." },
+      { id: 11, section: "SECTION 2: LOGICAL REASONING", q: "If all roses are flowers and some flowers are red, what can be concluded about roses being red?", options: ["All roses are red", "Some roses are red", "No roses are red", "Cannot be determined"], answer: 3, solution: "The premises do not establish any relationship between roses and the red flowers. Therefore, whether roses are red cannot be determined." },
       { id: 12, section: "SECTION 2: LOGICAL REASONING", q: "Find the odd one out: 3, 9, 27, 81, 243, 729, 2188", options: ["243", "729", "2188", "81"], answer: 2, solution: "All numbers are powers of 3 (3^1, 3^2, 3^3, ..., 3^7 = 2187). 2188 is not a power of 3." },
-      { id: 13, section: "SECTION 2: LOGICAL REASONING", q: "If CODING is written as DPEJOH, how is MOTHER written?", options: ["NPUIFS", "NPTIFS", "OPUIFS", "NPUIFS"], answer: 0, solution: "Shift each letter by +1: M→N, O→P, T→U, H→I, E→F, R→S → NPUIFS." },
-      { id: 14, section: "SECTION 2: LOGICAL REASONING", q: "Statement: All managers are employees. Some employees are engineers. Conclusion: Some managers are engineers.", options: ["True", "False", "Cannot be determined", "None of these"], answer: 1, solution: "False / Cannot be definitely deduced from the given premises." },
+      { id: 13, section: "SECTION 2: LOGICAL REASONING", q: "If CODING is written as DPEJOH, how is MOTHER written?", options: ["NPUIFS", "NPTIFS", "OPUIFS", "NQWJGT"], answer: 0, solution: "Shift each letter by +1: M→N, O→P, T→U, H→I, E→F, R→S → NPUIFS." },
+      { id: 14, section: "SECTION 2: LOGICAL REASONING", q: "Statement: All managers are employees. Some employees are engineers. Conclusion: Some managers are engineers.", options: ["True", "False", "Cannot be determined", "None of these"], answer: 2, solution: "Cannot be determined. The employees who are engineers may or may not be managers. The premises do not establish an overlap between managers and engineers." },
       { id: 15, section: "SECTION 2: LOGICAL REASONING", q: "In a certain code, FRIEND is written as HUMJTK. How is SISTER written?", options: ["UKUVGT", "TKUTGS", "TJTUGS", "UKUTGS"], answer: 0, solution: "Each letter is shifted by +2 positions: S→U, I→K, S→U, T→V, E→G, R→T → UKUVGT." },
       { id: 16, section: "SECTION 2: LOGICAL REASONING", q: "What comes next in the sequence: Z, X, V, T, ?", options: ["S", "R", "Q", "P"], answer: 1, solution: "Decreasing by 2 letters: Z(-2)=X, X(-2)=V, V(-2)=T, T(-2)=R." },
       { id: 17, section: "SECTION 2: LOGICAL REASONING", q: "If A=1, B=2, C=3... what is the value of COMPUTER?", options: ["99", "100", "101", "102"], answer: 0, solution: "C(3) + O(15) + M(13) + P(16) + U(21) + T(20) + E(5) + R(18) = 99." },
@@ -798,7 +863,7 @@
       { id: 82, section: "SECTION 9: ALGORITHMS", q: "What is dynamic programming?", options: ["Writing dynamic code", "Solving problems by breaking into overlapping subproblems", "Allocating memory dynamically", "Running programs dynamically"], answer: 1, solution: "DP solves problems by memoizing/tabulating overlapping subproblems." },
       { id: 83, section: "SECTION 9: ALGORITHMS", q: "Which algorithm uses a greedy approach?", options: ["Dijkstra's shortest path", "Merge Sort", "Binary Search", "DFS"], answer: 0, solution: "Dijkstra's algorithm greedily picks the unvisited vertex with smallest tentative distance." },
       { id: 84, section: "SECTION 9: ALGORITHMS", q: "What is the principle of BFS?", options: ["LIFO", "FIFO", "Random", "Priority"], answer: 1, solution: "BFS follows First In First Out (FIFO) processing order." },
-      { id: 85, section: "SECTION 9: ALGORITHMS", q: "Which classic problem is solved recursively?", options: ["Linear Search", "Tower of Hanoi", "Bubble Sort", "All of the above"], answer: 1, solution: "Tower of Hanoi is naturally formulated using recursive sub-movements." },
+      { id: 85, section: "SECTION 9: ALGORITHMS", q: "Which classic problem is most commonly formulated using recursion?", options: ["Linear Search", "Tower of Hanoi", "Bubble Sort", "Binary Search"], answer: 1, solution: "Tower of Hanoi is a classic recursive problem: solving n disks requires solving smaller instances of the same problem." },
       { id: 86, section: "SECTION 9: ALGORITHMS", q: "What is backtracking?", options: ["Going back in code", "Trying all possibilities and undoing wrong choices", "Backward traversal", "Reverse engineering"], answer: 1, solution: "Backtracking builds candidates incrementally and abandons ('backtracks') dead ends." },
       { id: 87, section: "SECTION 9: ALGORITHMS", q: "Which algorithm finds the Minimum Spanning Tree (MST)?", options: ["Dijkstra's", "Kruskal's", "Binary Search", "Quick Sort"], answer: 1, solution: "Kruskal's and Prim's algorithms find the MST of a weighted graph." },
       { id: 88, section: "SECTION 9: ALGORITHMS", q: "What is the time complexity of accessing an element in an array by index?", options: ["O(1)", "O(log n)", "O(n)", "O(n^2)"], answer: 0, solution: "Arrays support instant direct address calculation in O(1) constant time." },
@@ -1077,13 +1142,142 @@
     let flaggedQuestions = new Set();
     let currentMode = 'practice'; // 'practice' or 'exam'
 
+    // Timer settings
+    // Change these two values if you want a different quiz duration.
+    const QUESTION_TIME_LIMIT = 60;       // 60 seconds per question
+    const OVERALL_TIME_LIMIT = 60 * 60;   // 60 minutes for the whole quiz
+
+    let questionTimeLeft = {};
+    let overallTimeLeft = OVERALL_TIME_LIMIT;
+    let questionTimerInterval = null;
+    let overallTimerInterval = null;
+    let quizFinished = false;
+
+    quizData.forEach(q => {
+      questionTimeLeft[q.id] = QUESTION_TIME_LIMIT;
+    });
+
     // Init function
     window.addEventListener('DOMContentLoaded', () => {
       populateSectionDropdown();
       renderPalette();
       loadQuestion();
       updateStats();
+      startOverallTimer();
     });
+
+
+    function formatTime(totalSeconds) {
+      const seconds = Math.max(0, Math.floor(totalSeconds));
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay(elementId, seconds) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      el.textContent = formatTime(seconds);
+      el.classList.remove('warning', 'danger');
+
+      if (seconds <= 10) {
+        el.classList.add('danger');
+      } else if (seconds <= 20) {
+        el.classList.add('warning');
+      }
+    }
+
+    function stopQuestionTimer() {
+      if (questionTimerInterval) {
+        clearInterval(questionTimerInterval);
+        questionTimerInterval = null;
+      }
+    }
+
+    function startQuestionTimer() {
+      stopQuestionTimer();
+
+      if (quizFinished || currentFilteredList.length === 0) {
+        document.getElementById('questionTimer').textContent = '--:--';
+        return;
+      }
+
+      const q = currentFilteredList[currentIndex];
+      if (questionTimeLeft[q.id] === undefined) {
+        questionTimeLeft[q.id] = QUESTION_TIME_LIMIT;
+      }
+
+      updateTimerDisplay('questionTimer', questionTimeLeft[q.id]);
+
+      questionTimerInterval = setInterval(() => {
+        if (quizFinished) {
+          stopQuestionTimer();
+          return;
+        }
+
+        questionTimeLeft[q.id]--;
+
+        if (questionTimeLeft[q.id] <= 0) {
+          questionTimeLeft[q.id] = 0;
+          updateTimerDisplay('questionTimer', 0);
+          stopQuestionTimer();
+
+          // Automatically move to the next question when time expires.
+          if (currentIndex < currentFilteredList.length - 1) {
+            currentIndex++;
+            loadQuestion();
+          } else {
+            submitExam(true);
+          }
+          return;
+        }
+
+        updateTimerDisplay('questionTimer', questionTimeLeft[q.id]);
+      }, 1000);
+    }
+
+    function startOverallTimer() {
+      if (overallTimerInterval) clearInterval(overallTimerInterval);
+
+      updateTimerDisplay('overallTimer', overallTimeLeft);
+
+      overallTimerInterval = setInterval(() => {
+        if (quizFinished) {
+          clearInterval(overallTimerInterval);
+          overallTimerInterval = null;
+          return;
+        }
+
+        overallTimeLeft--;
+
+        if (overallTimeLeft <= 0) {
+          overallTimeLeft = 0;
+          updateTimerDisplay('overallTimer', 0);
+          clearInterval(overallTimerInterval);
+          overallTimerInterval = null;
+          submitExam(true);
+          return;
+        }
+
+        updateTimerDisplay('overallTimer', overallTimeLeft);
+      }, 1000);
+    }
+
+    function resetTimers() {
+      stopQuestionTimer();
+      if (overallTimerInterval) clearInterval(overallTimerInterval);
+
+      questionTimeLeft = {};
+      quizData.forEach(q => {
+        questionTimeLeft[q.id] = QUESTION_TIME_LIMIT;
+      });
+
+      overallTimeLeft = OVERALL_TIME_LIMIT;
+      quizFinished = false;
+      updateTimerDisplay('overallTimer', overallTimeLeft);
+      startOverallTimer();
+    }
 
     function populateSectionDropdown() {
       const select = document.getElementById('sectionFilter');
@@ -1125,6 +1319,8 @@
     }
 
     function loadQuestion() {
+      stopQuestionTimer();
+
       if (currentFilteredList.length === 0) {
         document.getElementById('qSectionTag').textContent = "No matches found";
         document.getElementById('qNumberPill').textContent = "0 / 0";
@@ -1187,6 +1383,7 @@
 
       renderPalette();
       updateStats();
+      startQuestionTimer();
     }
 
     function selectOption(qId, optionIdx) {
@@ -1287,7 +1484,7 @@
       document.documentElement.setAttribute('data-theme', next);
     }
 
-    function submitExam() {
+    function submitExam(autoSubmitted = false) {
       let correct = 0;
       let wrong = 0;
       let totalAnswered = 0;
@@ -1311,6 +1508,16 @@
       document.getElementById('modalWrong').textContent = wrong;
       document.getElementById('modalAccuracy').textContent = `${accuracy}%`;
 
+      quizFinished = true;
+      stopQuestionTimer();
+      if (overallTimerInterval) {
+        clearInterval(overallTimerInterval);
+        overallTimerInterval = null;
+      }
+
+      const title = document.querySelector('#resultModal h2');
+      if (title) title.textContent = autoSubmitted ? 'Time Up — Quiz Summary' : 'Quiz Summary';
+
       document.getElementById('resultModal').classList.add('active');
     }
 
@@ -1324,6 +1531,7 @@
       flaggedQuestions.clear();
       document.getElementById('resultModal').classList.remove('active');
       currentIndex = 0;
+      resetTimers();
       loadQuestion();
       updateStats();
     }
